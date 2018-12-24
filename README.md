@@ -1,8 +1,6 @@
 XPChain Core integration/staging tree
 =====================================
 
-[![Build Status](https://travis-ci.org/xpc-wg/xpchain.svg?branch=master)](https://travis-ci.org/xpc-wg/xpchain)
-
 https://www.xpchain.io/
 
 What is XPChain?
