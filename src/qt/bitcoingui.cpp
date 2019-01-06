@@ -226,44 +226,65 @@ BitcoinGUI::~BitcoinGUI()
 void BitcoinGUI::createActions()
 {
     QActionGroup *tabGroup = new QActionGroup(this);
+    QPixmap overview_pix;
+    QIcon overview_icon;
+    QPixmap send_pix;
+    QIcon send_icon;
+    QPixmap receive_pix;
+    QIcon receive_icon;
+    QPixmap history_pix;
+    QIcon history_icon;
+    QPixmap minting_pix;
+    QIcon minting_icon;
 
-    overviewAction = new QAction(platformStyle->SingleColorIcon(":/icons/overview"), tr("&Overview"), this);
+    if (!overview_pix.load("./icons/overview.png")){overview_pix.load(":/icons/overview");}
+    overview_icon.addPixmap(overview_pix);
+    if (!send_pix.load("./icons/send.png")){send_pix.load(":/icons/send");}
+    send_icon.addPixmap(send_pix);
+    if (!receive_pix.load("./icons/receive.png")){receive_pix.load(":/icons/receive");}
+    receive_icon.addPixmap(receive_pix);
+    if (!history_pix.load("./icons/history.png")){history_pix.load(":/icons/history");}
+    history_icon.addPixmap(history_pix);
+    if (!minting_pix.load("./icons/minting.png")){minting_pix.load(":/icons/minting");}
+    minting_icon.addPixmap(minting_pix);        
+    
+    overviewAction = new QAction(platformStyle->SingleColorIcon(overview_icon), tr("&Overview"), this);
     overviewAction->setStatusTip(tr("Show general overview of wallet"));
     overviewAction->setToolTip(overviewAction->statusTip());
     overviewAction->setCheckable(true);
     overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
     tabGroup->addAction(overviewAction);
 
-    sendCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/send"), tr("&Send"), this);
+    sendCoinsAction = new QAction(platformStyle->SingleColorIcon(send_icon), tr("&Send"), this);
     sendCoinsAction->setStatusTip(tr("Send coins to a XPChain address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
 
-    sendCoinsMenuAction = new QAction(platformStyle->TextColorIcon(":/icons/send"), sendCoinsAction->text(), this);
+    sendCoinsMenuAction = new QAction(platformStyle->TextColorIcon(send_icon), sendCoinsAction->text(), this);
     sendCoinsMenuAction->setStatusTip(sendCoinsAction->statusTip());
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
-    receiveCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
+    receiveCoinsAction = new QAction(platformStyle->SingleColorIcon(receive_icon), tr("&Receive"), this);
     receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and xpchain: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     tabGroup->addAction(receiveCoinsAction);
 
-    receiveCoinsMenuAction = new QAction(platformStyle->TextColorIcon(":/icons/receiving_addresses"), receiveCoinsAction->text(), this);
+    receiveCoinsMenuAction = new QAction(platformStyle->TextColorIcon(receive_icon), receiveCoinsAction->text(), this);
     receiveCoinsMenuAction->setStatusTip(receiveCoinsAction->statusTip());
     receiveCoinsMenuAction->setToolTip(receiveCoinsMenuAction->statusTip());
 
-    historyAction = new QAction(platformStyle->SingleColorIcon(":/icons/history"), tr("&Transactions"), this);
+    historyAction = new QAction(platformStyle->SingleColorIcon(history_icon), tr("&Transactions"), this);
     historyAction->setStatusTip(tr("Browse transaction history"));
     historyAction->setToolTip(historyAction->statusTip());
     historyAction->setCheckable(true);
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(historyAction);
 
-    mintingAction = new QAction(platformStyle->SingleColorIcon(":/icons/minting"), tr("&Minting"), this);
+    mintingAction = new QAction(platformStyle->SingleColorIcon(minting_icon), tr("&Minting"), this);
     mintingAction->setStatusTip(tr("Show the status of minting"));
     mintingAction->setToolTip(mintingAction->statusTip());
     mintingAction->setCheckable(true);

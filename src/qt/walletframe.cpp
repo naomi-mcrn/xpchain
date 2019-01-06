@@ -33,7 +33,10 @@ WalletFrame::WalletFrame(const PlatformStyle *_platformStyle, BitcoinGUI *_gui) 
     QLabel *noWallet = new QLabel(tr("No wallet has been loaded."));
     noWallet->setAlignment(Qt::AlignCenter);
     walletStack->addWidget(noWallet);
-    wallpaper.load(":/icons/wallpaper");
+    
+    if (!wallpaper.load("./icons/wallpaper.png")){
+      wallpaper.load(":/icons/wallpaper");
+    }
 }
 
 WalletFrame::~WalletFrame()
