@@ -241,7 +241,7 @@ void BitcoinGUI::createActions()
     overview_icon.addPixmap(overview_pix);
     if (!send_pix.load("./icons/send.png")){send_pix.load(":/icons/send");}
     send_icon.addPixmap(send_pix);
-    if (!receive_pix.load("./icons/receive.png")){receive_pix.load(":/icons/receive");}
+    if (!receive_pix.load("./icons/receive.png")){receive_pix.load(":/icons/receiving_addresses");}
     receive_icon.addPixmap(receive_pix);
     if (!history_pix.load("./icons/history.png")){history_pix.load(":/icons/history");}
     history_icon.addPixmap(history_pix);
