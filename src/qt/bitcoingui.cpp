@@ -52,6 +52,7 @@
 #include <QStackedWidget>
 #include <QStatusBar>
 #include <QStyle>
+#include <QTextStream>
 #include <QTimer>
 #include <QToolBar>
 #include <QUrlQuery>
@@ -456,9 +457,20 @@ void BitcoinGUI::createToolBars()
         toolbar->addAction(historyAction);
         toolbar->addAction(mintingAction);
         addToolBar(Qt::LeftToolBarArea, toolbar);
-        toolbar->setStyleSheet("QToolBar{background-color: #001A43;}"
-                        "QToolButton{color:white;}"
-                        "QToolTip { color: black; }");
+	try{
+	  QFile file("icons/toolbar.css");
+	  if (!file.open(QIODevice::ReadOnly)){
+	    throw "can't open toolbar css";
+	  }
+	  QTextStream in(&file);
+	  QString inStr = in.readAll();
+	  file.close();
+	  toolbar->setStyleSheet(inStr);
+	}catch(...){
+	  toolbar->setStyleSheet("QToolBar{background-color: #001A43;}"
+				 "QToolButton{color:white;}"
+				 "QToolTip { color: black; }");
+	}
         overviewAction->setChecked(true);
 
 #ifdef ENABLE_WALLET
