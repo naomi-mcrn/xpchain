@@ -310,7 +310,8 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
             coinbaseTx.vout[0].nValue = nBlockReward;
         }
     }
-    coinbaseTx.vin[0].scriptSig = (CScript() << nHeight << OP_0) + COINBASE_FLAGS;
+    coinbaseTx.vin[0].scriptSig = (CScript() << nHeight) + COINBASE_FLAGS;
+    coinbaseTx.vin[0].scriptSig = coinbaseTx.vin[0].scriptSig << OP_0;//prepare next softfork
     pblock->vtx[0] = MakeTransactionRef(std::move(coinbaseTx));
     pblocktemplate->vchCoinbaseCommitment = GenerateCoinbaseCommitment(*pblock, pindexPrev, chainparams.GetConsensus());
     pblocktemplate->vTxFees[0] = -nFees;
