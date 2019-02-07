@@ -467,9 +467,15 @@ void BitcoinGUI::createToolBars()
 	  file.close();
 	  toolbar->setStyleSheet(inStr);
 	}catch(...){
+#if defined(Q_OS_MAC)
+	  toolbar->setStyleSheet("QToolBar{background-color: #001A43;}"
+				 "QToolButton{color:black;}"
+				 "QToolTip { color: black; }");
+#else
 	  toolbar->setStyleSheet("QToolBar{background-color: #001A43;}"
 				 "QToolButton{color:white;}"
 				 "QToolTip { color: black; }");
+#endif
 	}
         overviewAction->setChecked(true);
 
