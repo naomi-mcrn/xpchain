@@ -251,8 +251,9 @@ CTxMemPool mempool(&feeEstimator);
 std::atomic_bool g_is_mempool_loaded{false};
 
 /** Constant stuff for coinbase transactions we create: */
-const char* miner_sig = "|CVMU(https://cvmu.jp/)|";
-CScript COINBASE_FLAGS((unsigned char*)miner_sig, (unsigned char*)miner_sig + strlen((char *)miner_sig));
+const std::string miner_sig = "|CVMU(https://cvmu.jp/)|";
+const std::vector<unsigned char> miner_sig_sv(miner_sig.begin(), miner_sig.end());
+CScript COINBASE_FLAGS = (CScript() << miner_sig_sv);
 
 const std::string strMessageMagic = "XPChain Signed Message:\n";
 
