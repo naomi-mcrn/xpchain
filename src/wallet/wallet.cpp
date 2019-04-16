@@ -4360,6 +4360,7 @@ bool CWallet::CreateCoinStake(const COutput& coin, CTransactionRef& txNew, CAmou
 {
     CCoinControl coin_control;
     coin_control.m_feerate = CFeeRate(0);
+    coin_control.fOverrideFeeRate = true;
     coin_control.Select(coin.GetInputCoin().outpoint);
 
     int nChangePosRet = -1;
