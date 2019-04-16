@@ -4359,7 +4359,7 @@ bool CWallet::BackupWallet(const std::string& strDest)
 bool CWallet::CreateCoinStake(const COutput& coin, CTransactionRef& txNew, CAmount& nFees)
 {
     CCoinControl coin_control;
-    coin_control.m_feerate = CFeeRate(0);
+    coin_control.m_feerate = CFeeRate(20000);
     coin_control.fOverrideFeeRate = true;
     coin_control.Select(coin.GetInputCoin().outpoint);
 
