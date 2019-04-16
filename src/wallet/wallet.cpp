@@ -4372,9 +4372,8 @@ bool CWallet::CreateCoinStake(const COutput& coin, CTransactionRef& txNew, CAmou
     {
         LOCK2(cs_main, cs_wallet);
         CReserveKey reserve_key(this);
-        if(!CreateTransaction(vecSend, txNew, reserve_key, nFees, nChangePosRet, strError, coin_control, true, true)){
+        if(!CreateTransaction(vecSend, txNew, reserve_key, nFees, nChangePosRet, strError, coin_control, true, true))
             return error("%s: %s", __func__, strError);
-        }
     }
     return true;
 }
