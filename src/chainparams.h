@@ -25,6 +25,12 @@ struct CCheckpointData {
     MapCheckpoints mapCheckpoints;
 };
 
+typedef std::map<uint256, uint32_t> MapPoSNonce;
+
+struct CPoSNonceData {
+    MapPoSNonce mapPoSNonce;
+};
+
 /**
  * Holds various statistics on transactions within a chain. Used to estimate
  * verification progress during chain sync.
@@ -80,6 +86,7 @@ public:
     const std::vector<SeedSpec6>& FixedSeeds() const { return vFixedSeeds; }
     const CCheckpointData& Checkpoints() const { return checkpointData; }
     const ChainTxData& TxData() const { return chainTxData; }
+    const CPoSNonceData& NonceData() const { return nonceData; }
     void UpdateVersionBitsParameters(Consensus::DeploymentPos d, int64_t nStartTime, int64_t nTimeout);
 protected:
     CChainParams() {}
@@ -99,6 +106,7 @@ protected:
     bool fMineBlocksOnDemand;
     CCheckpointData checkpointData;
     ChainTxData chainTxData;
+    CPoSNonceData nonceData;
     bool m_fallback_fee_enabled;
 };
 

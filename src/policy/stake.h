@@ -10,4 +10,6 @@
 
 bool AddressesEqual(const CScript& a, const CScript& b);
 
+bool IsProofOfStake(const CBlockHeader& block);
+
 #endif //BITCOIN_POLICY_STAKE_H

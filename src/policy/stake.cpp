@@ -13,6 +13,7 @@
 #include <script/standard.h>
 #include <stdio.h>
 #include <key_io.h>
+#include <chainparams.h>
 
 bool AddressesEqual(const CScript& a, const CScript& b)
 {
@@ -39,4 +40,14 @@ bool AddressesEqual(const CScript& a, const CScript& b)
 
     //printf("a = %s b = %s\n", EncodeDestination(aAddress).c_str(), EncodeDestination(bAddress).c_str());
     return aAddress == bAddress;
+}
+
+bool IsProofOfStake(const CBlockHeader& block)
+{
+    if(block.nNonce == 0){
+        return true;
+    }
+    const MapPoSNonce& map = Params().NonceData().mapPoSNonce;
+    auto itr = map.find(block.GetHash());
+    return itr != map.end();
 }
