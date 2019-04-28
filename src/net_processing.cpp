@@ -188,8 +188,8 @@ public:
         maxSize(0),
         maxAvg(0)
     {
-        maxSize = COINBASE_MATURITY;
-        maxAvg = 10;
+        maxSize = gArgs.GetArg("-headerspamfiltermaxsize", DEFAULT_HEADER_SPAM_FILTER_MAX_SIZE);
+        maxAvg = gArgs.GetArg("-headerspamfiltermaxavg", DEFAULT_HEADER_SPAM_FILTER_MAX_AVG);
     }
 
     bool addHeaders(const CBlockIndex *pindexFirst, const CBlockIndex *pindexLast)
@@ -401,11 +401,15 @@ bool ProcessNetBlockHeaders(CNode* pfrom, const std::vector<CBlockHeader>& block
 {
     const CBlockIndex* pindexFirst = nullptr;
     bool ret = ProcessNewBlockHeaders(block, state, chainparams, ppindex, first_invalid, &pindexFirst);
-    LOCK(cs_main);
-    CNodeState* nodestate = State(pfrom->GetId());
-    const CBlockIndex* pindexLast = ppindex == nullptr ? nullptr : *ppindex;
-    nodestate->headers.addHeaders(pindexFirst, pindexLast);
-    return nodestate->headers.updateState(state, ret);
+    if(gArgs.GetBoolArg("-headerspamfilter", DEFAULT_HEADER_SPAM_FILTER))
+    {
+        LOCK(cs_main);
+        CNodeState *nodestate = State(pfrom->GetId());
+        const CBlockIndex *pindexLast = ppindex == nullptr ? nullptr : *ppindex;
+        nodestate->headers.addHeaders(pindexFirst, pindexLast);
+        return nodestate->headers.updateState(state, ret);
+    }
+    return ret;
 }
 
 void UpdatePreferredDownload(CNode* node, CNodeState* state) EXCLUSIVE_LOCKS_REQUIRED(cs_main)
