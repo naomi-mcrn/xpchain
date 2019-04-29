@@ -21,8 +21,6 @@
 
 #include <QObject>
 
-extern bool fWalletUnlockMintOnly;
-
 enum class OutputType;
 
 class AddressTableModel;
@@ -213,6 +211,9 @@ public:
     bool isMultiwallet();
 
     AddressTableModel* getAddressTableModel() const { return addressTableModel; }
+
+    bool getMintOnly();
+    void setMintOnly(bool f);
 private:
     std::unique_ptr<interfaces::Wallet> m_wallet;
     std::unique_ptr<interfaces::Handler> m_handler_unload;
