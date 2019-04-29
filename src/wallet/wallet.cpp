@@ -4567,3 +4567,8 @@ std::vector<OutputGroup> CWallet::GroupOutputs(const std::vector<COutput>& outpu
     }
     return groups;
 }
+
+bool CWallet::Lock() {
+    fWalletUnlockMintOnly = false;
+    return CCryptoKeyStore::Lock();
+}

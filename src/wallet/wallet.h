@@ -1223,6 +1223,7 @@ public:
     bool DelRewardDistributionPcts();
 
     bool fWalletUnlockMintOnly = false;
+    bool Lock() override;
 };
 
 /** A key allocated from the key pool. */

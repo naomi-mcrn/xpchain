@@ -90,6 +90,9 @@ void EnsureWalletIsUnlocked(CWallet * const pwallet)
     if (pwallet->IsLocked()) {
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
     }
+    if (pwallet->fWalletUnlockMintOnly) {
+        throw JSONRPCError(RPC_WALLET_MINTONLY, "Error: Wallet is unlocked for minting only.");
+    }
 }
 
 static void WalletTxToJSON(const CWalletTx& wtx, UniValue& entry)
