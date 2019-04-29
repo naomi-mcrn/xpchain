@@ -1221,6 +1221,8 @@ public:
 
     /** Clear percentages of staking reward distribution, and erase it from database file */
     bool DelRewardDistributionPcts();
+
+    bool fWalletUnlockMintOnly = false;
 };
 
 /** A key allocated from the key pool. */
