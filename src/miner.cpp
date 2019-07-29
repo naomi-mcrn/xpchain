@@ -338,7 +338,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
             coinbaseTx.vout[0].nValue = nBlockReward;
         }
     }
-    coinbaseTx.vin[0].scriptSig = CScript() << nHeight;
+    coinbaseTx.vin[0].scriptSig = (CScript() << nHeight) + COINBASE_FLAGS;
     if (!fPoSHeight) {
         coinbaseTx.vin[0].scriptSig = coinbaseTx.vin[0].scriptSig << OP_0;
     }
