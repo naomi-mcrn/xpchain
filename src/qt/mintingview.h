@@ -39,12 +39,27 @@ public:
         Minting60days,
     };
 
+    enum ColumnWidths {
+        TXHASH_COLUMN_WIDTH = 70,
+        ADDRESS_COLUMN_WIDTH = 60,
+        AGE_COLUMN_WIDTH = 40,
+        BALANCE_COLUMN_WIDTH = 70,
+        COINDAY_COLUMN_WIDTH = 70,
+        MINTPROBABILITY_COLUMN_WIDTH = 50,
+        MINTREWARD_MINIMUM_COLUMN_WIDTH = 120,
+        MINIMUM_COLUMN_WIDTH = 23
+    };
+
 private:
     WalletModel *model;
     QTableView *mintingView;
     QComboBox *mintingCombo;
     MintingFilterProxy *mintingProxyModel;
     QMenu *contextMenu;
+
+    GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
+
+    virtual void resizeEvent(QResizeEvent* event);
 
 private Q_SLOTS:
     void contextualMenu(const QPoint &);
