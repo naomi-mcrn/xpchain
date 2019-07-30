@@ -90,6 +90,7 @@ enum RPCErrorCode
 
     //! Unused reserved codes, kept around for backwards compatibility. Do not reuse.
     RPC_FORBIDDEN_BY_SAFE_MODE      = -2,  //!< Server is in safe mode, and command is not allowed in safe mode
+    RPC_WALLET_MINTONLY             = -102,
 };
 
 UniValue JSONRPCRequestObj(const std::string& strMethod, const UniValue& params, const UniValue& id);
