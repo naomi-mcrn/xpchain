@@ -143,7 +143,7 @@ public:
 
     bool IsCrypted() const { return fUseCrypto; }
     bool IsLocked() const;
-    bool Lock();
+    virtual bool Lock();
 
     virtual bool AddCryptedKey(const CPubKey &vchPubKey, const std::vector<unsigned char> &vchCryptedSecret);
     bool AddKeyPubKey(const CKey& key, const CPubKey &pubkey) override;

@@ -89,11 +89,11 @@ MintingView::MintingView(const PlatformStyle *platformStyle, QWidget *parent) :
     vlayout->setSpacing(0);
     int width = view->verticalScrollBar()->sizeHint().width();
     // Cover scroll bar width with spacing
-#ifdef Q_WS_MAC
-    hlayout->addSpacing(width+2);
-#else
-    hlayout->addSpacing(width);
-#endif
+    if(platformStyle->getUseExtraSpacing())
+        hlayout->addSpacing(width+2);
+    else
+        hlayout->addSpacing(width);
+
     // Always show scroll bar
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setTabKeyNavigation(false);
@@ -133,6 +133,7 @@ void MintingView::setModel(WalletModel *_model)
         mintingProxyModel->setSortRole(Qt::EditRole);
         model->getMintingTableModel()->setMintingProxyModel(mintingProxyModel);
 
+        mintingView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         mintingView->setModel(mintingProxyModel);
         mintingView->setAlternatingRowColors(true);
         mintingView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -141,27 +142,22 @@ void MintingView::setModel(WalletModel *_model)
         mintingView->sortByColumn(MintingTableModel::CoinDay, Qt::DescendingOrder);
         mintingView->verticalHeader()->hide();
 
-        mintingView->horizontalHeader()->resizeSection(
-                MintingTableModel::Address, 300);
-#if QT_VERSION < 0x050000
-        mintingView->horizontalHeader()->setResizeMode(
-                MintingTableModel::TxHash, QHeaderView::Stretch);
-#else
-        mintingView->horizontalHeader()->setSectionResizeMode(
-                MintingTableModel::TxHash, QHeaderView::Stretch);
-        mintingView->horizontalHeader()->setSectionResizeMode(
-                MintingTableModel::MintReward, QHeaderView::Stretch);
-#endif
+        mintingView->setColumnWidth(MintingTableModel::TxHash, TXHASH_COLUMN_WIDTH);
+        mintingView->setColumnWidth(MintingTableModel::Address, ADDRESS_COLUMN_WIDTH);
+        mintingView->setColumnWidth(MintingTableModel::Age, AGE_COLUMN_WIDTH);
+        mintingView->setColumnWidth(MintingTableModel::Balance, BALANCE_COLUMN_WIDTH);
+        mintingView->setColumnWidth(MintingTableModel::CoinDay, COINDAY_COLUMN_WIDTH);
+        mintingView->setColumnWidth(MintingTableModel::MintProbability, MINTPROBABILITY_COLUMN_WIDTH);
+        mintingView->setColumnWidth(MintingTableModel::MintReward, MINTREWARD_MINIMUM_COLUMN_WIDTH);
 
-        mintingView->horizontalHeader()->resizeSection(
-                MintingTableModel::Age, 60);
-        mintingView->horizontalHeader()->resizeSection(
-                MintingTableModel::Balance, 100);
-        mintingView->horizontalHeader()->resizeSection(
-                MintingTableModel::CoinDay,100);
-        mintingView->horizontalHeader()->resizeSection(
-                MintingTableModel::MintProbability, 120);
+        columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(mintingView, MINTREWARD_MINIMUM_COLUMN_WIDTH, MINIMUM_COLUMN_WIDTH, this);
     }
+}
+
+void MintingView::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+    columnResizingFixer->stretchColumnWidth(0);
 }
 
 void MintingView::chooseMintingInterval(int idx)

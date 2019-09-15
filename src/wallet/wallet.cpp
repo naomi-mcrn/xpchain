@@ -4359,6 +4359,8 @@ bool CWallet::BackupWallet(const std::string& strDest)
 bool CWallet::CreateCoinStake(const COutput& coin, CTransactionRef& txNew, CAmount& nFees)
 {
     CCoinControl coin_control;
+    coin_control.m_feerate = minRelayTxFee;
+    coin_control.fOverrideFeeRate = true;
     coin_control.Select(coin.GetInputCoin().outpoint);
 
     int nChangePosRet = -1;
@@ -4371,7 +4373,7 @@ bool CWallet::CreateCoinStake(const COutput& coin, CTransactionRef& txNew, CAmou
         LOCK2(cs_main, cs_wallet);
         CReserveKey reserve_key(this);
         if(!CreateTransaction(vecSend, txNew, reserve_key, nFees, nChangePosRet, strError, coin_control, true, true))
-            return false;
+            return error("%s: %s", __func__, strError);
     }
     return true;
 }
@@ -4566,4 +4568,9 @@ std::vector<OutputGroup> CWallet::GroupOutputs(const std::vector<COutput>& outpu
         for (const auto& it : gmap) groups.push_back(it.second);
     }
     return groups;
+}
+
+bool CWallet::Lock() {
+    fWalletUnlockMintOnly = false;
+    return CCryptoKeyStore::Lock();
 }

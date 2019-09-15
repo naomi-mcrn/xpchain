@@ -1136,6 +1136,7 @@ void BitcoinGUI::setHDStatus(int hdEnabled)
 
 void BitcoinGUI::setEncryptionStatus(int status)
 {
+    bool mintonly;
     switch(status)
     {
     case WalletModel::Unencrypted:
@@ -1153,8 +1154,9 @@ void BitcoinGUI::setEncryptionStatus(int status)
         encryptWalletAction->setChecked(true);
         changePassphraseAction->setEnabled(true);
         encryptWalletAction->setEnabled(false); // TODO: decrypt currently not supported
-        decryptForMintingAction->setEnabled(fWalletUnlockMintOnly);
-        decryptForMintingAction->setChecked(fWalletUnlockMintOnly);
+        mintonly = walletFrame->currentWalletView()->getWalletModel()->getMintOnly();
+        decryptForMintingAction->setEnabled(mintonly);
+        decryptForMintingAction->setChecked(mintonly);
         break;
     case WalletModel::Locked:
         labelWalletEncryptionIcon->show();

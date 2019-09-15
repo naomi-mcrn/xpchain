@@ -274,13 +274,13 @@ void WalletView::decryptForMinting(bool status)
         if(walletModel->getEncryptionStatus() != WalletModel::Locked)
             return;
 
-        fWalletUnlockMintOnly = true;
+        walletModel->setMintOnly(true);
         AskPassphraseDialog dlg(AskPassphraseDialog::Unlock, this);
         dlg.setModel(walletModel);
         dlg.exec();
 
         if(walletModel->getEncryptionStatus() != WalletModel::Unlocked){
-            fWalletUnlockMintOnly = false;
+            walletModel->setMintOnly(false);
             updateEncryptionStatus();
             return;
          }
@@ -290,11 +290,10 @@ void WalletView::decryptForMinting(bool status)
         if(walletModel->getEncryptionStatus() != WalletModel::Unlocked)
             return;
 
-        if (!fWalletUnlockMintOnly)
+        if (!walletModel->getMintOnly())
             return;
 
         walletModel->setWalletLocked(true);
-        fWalletUnlockMintOnly = false;
     }
 }
 

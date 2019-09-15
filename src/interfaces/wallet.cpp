@@ -475,6 +475,16 @@ public:
         return m_wallet.vRewardDistributionPcts;
     }
 
+    bool getMintOnly() override
+    {
+        return m_wallet.fWalletUnlockMintOnly;
+    }
+
+    void setMintOnly(bool f) override
+    {
+        m_wallet.fWalletUnlockMintOnly = f;
+    }
+
     std::shared_ptr<CWallet> m_shared_wallet;
     CWallet& m_wallet;
 };

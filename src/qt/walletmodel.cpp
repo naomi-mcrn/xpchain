@@ -462,7 +462,7 @@ void WalletModel::unsubscribeFromCoreSignals()
 WalletModel::UnlockContext WalletModel::requestUnlock()
 {
     bool was_locked = getEncryptionStatus() == Locked;
-    if ((!was_locked) && fWalletUnlockMintOnly)
+    if ((!was_locked) && getMintOnly())
     {
         setWalletLocked(true);
         was_locked = getEncryptionStatus() == Locked;
@@ -475,7 +475,7 @@ WalletModel::UnlockContext WalletModel::requestUnlock()
     // If wallet is still locked, unlock was failed or cancelled, mark context as invalid
     bool valid = getEncryptionStatus() != Locked;
 
-    return UnlockContext(this, valid, was_locked && !fWalletUnlockMintOnly);
+    return UnlockContext(this, valid, was_locked && !getMintOnly());
 }
 
 WalletModel::UnlockContext::UnlockContext(WalletModel *_wallet, bool _valid, bool _relock):
@@ -600,6 +600,12 @@ bool WalletModel::isMultiwallet()
     return m_node.getWallets().size() > 1;
 }
 
-// xpchain: optional setting to unlock wallet for block minting only;
-//         serves to disable the trivial sendmoney when OS account compromised
-bool fWalletUnlockMintOnly = false;
+bool WalletModel::getMintOnly()
+{
+    return m_wallet->getMintOnly();
+}
+
+void WalletModel::setMintOnly(bool f)
+{
+    m_wallet->setMintOnly(f);
+}

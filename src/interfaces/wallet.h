@@ -284,6 +284,9 @@ public:
 
     //! Get list of percentages of staking reward distribution.
     virtual std::vector<std::pair<std::string, std::uint8_t>> getRewardDistributionPcts() = 0;
+
+    virtual bool getMintOnly() = 0;
+    virtual void setMintOnly(bool f) = 0;
 };
 
 //! Tracking object returned by CreateTransaction and passed to CommitTransaction.
